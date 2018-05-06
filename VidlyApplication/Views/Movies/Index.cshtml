@@ -1,0 +1,30 @@
+﻿@model Vidly.ViewModels.RandomMovieViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+
+@if (Model.Movie.Count == 0)
+{
+    <text>Multiple people have rented this movie!!</text>
+}
+else
+{
+    <table class="table">
+        @foreach (var movie in Model.Movie)
+        {
+            <tr>
+                <td>@movie.Name</td>
+            </tr>
+
+        }
+    </table>
+}
+
+
+
+
+
