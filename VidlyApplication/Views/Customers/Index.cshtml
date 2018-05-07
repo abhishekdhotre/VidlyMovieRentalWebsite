@@ -1,4 +1,4 @@
-﻿@model Vidly.ViewModels.CustomerListViewModel
+﻿@model IEnumerable<VidlyApplication.Models.Customer>
 @{
     ViewBag.Title = "ViewCustomer";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,16 +6,25 @@
 
 <h2>Customers</h2>
 <table class="table">
-    @if (Model.customers.Count == 0)
+    @if (Model == null)
     {
         <text>We don't have any customers yet!</text>
     }
     else
     {
-        foreach (var cust in Model.customers)
+        <tr>
+            <th>Customer Name</th>
+            <th>Discount Rate</th>
+        </tr>
+        foreach (var cust in Model)
         {
             <tr>
-                <td><a href="/customers/details/@cust.Id">@cust.Name</a></td>
+                <td>
+                    @Html.ActionLink(cust.Name, "Details", "Customers", new { Id = cust.Id }, null)
+                </td>
+                <td>
+                    @cust.MembershipType.MembershipName
+                </td>
             </tr>
         }
     }
