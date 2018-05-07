@@ -1,0 +1,37 @@
+﻿@model VidlyApplication.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model.Customer.Id == 0)
+{
+    <h2>New Customer</h2>
+}
+else
+{
+    <h2>Edit Customer</h2>
+}
+
+
+@using (Html.BeginForm("Save", "Customers"))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.Customer.Name)
+        @Html.TextBoxFor(x => x.Customer.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Customer.BirthDate)
+        @Html.TextBoxFor(x => x.Customer.BirthDate, "{0: dd MMM yyyy}", new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(x => x.Customer.MembershipTypeId)
+        @Html.DropDownListFor(x => x.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "MembershipName"), "Select Membership", new { @class = "form-control" })
+    </div>
+    <div class="checkbox">
+        @Html.CheckBoxFor(x => x.Customer.isSubscribedToNewsletter) Subscribed to Newsletter?
+    </div>
+    @Html.HiddenFor(x => x.Customer.Id)
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
