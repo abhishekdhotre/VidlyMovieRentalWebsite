@@ -32,12 +32,11 @@ namespace Vidly.Controllers
 
         public ActionResult New()
         {
-            var movie = new MovieViewModel()
+            var MovieViewModel = new MovieViewModel()
             {
-                Movie = new Movie(),
                 Genres = _context.Genres.ToList()
             };
-            return View("MovieForm", movie);
+            return View("MovieForm", MovieViewModel);
         }
 
         public ActionResult Details(int Id)
@@ -52,17 +51,26 @@ namespace Vidly.Controllers
         public ActionResult Edit(int Id)
         {
             var movie = _context.Movie.Single(m => m.Id == Id);
-            var MovieViewModel = new MovieViewModel()
+            var MovieViewModel = new MovieViewModel(movie)
             {
-                Movie = movie,
                 Genres = _context.Genres.ToList()
             };
             return View("MovieForm", MovieViewModel);
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Movie movie)
         {
+
+            if (!ModelState.IsValid)
+            {
+                var MovieViewModel = new MovieViewModel(movie)
+                {
+                    Genres = _context.Genres.ToList()
+                };
+                return View("MovieForm", MovieViewModel);
+            }
             if(movie.Id == 0)
             {
                 movie.DateAdded = DateTime.Now;

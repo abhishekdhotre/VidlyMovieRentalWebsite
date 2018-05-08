@@ -11,11 +11,12 @@ namespace VidlyApplication.Models
     {
         public int Id { get; set; }
 
-        [Required] //will make the column not nullable
+        [Required(ErrorMessage = "Please enter customer name.")] //will make the column not nullable
         [StringLength(255)] //will make the column of nvarchar(255)
         public string Name { get; set; }
 
         [Display(Name = "Date of Birth")]
+        [Min18YearsIfMember]
         public DateTime? BirthDate { get; set; } //? -> nullable column
         
         public bool isSubscribedToNewsletter { get; set; }
