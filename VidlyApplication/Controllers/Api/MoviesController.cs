@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Data.Entity;
 using System.Web.Http;
 using VidlyApplication.App_Start;
 using VidlyApplication.Dtos;
@@ -22,13 +23,18 @@ namespace VidlyApplication.Controllers.Api
         //GET api/movie 
         public IEnumerable<MovieDto> GetMovies()
         {
-            return _context.Movie.ToList().Select(MappingProfile.MovieToMovieDtoMapper.Map<Movie, MovieDto>);
+            return _context.Movie
+                .Include(m => m.Genre)
+                .ToList()
+                .Select(MappingProfile.MovieToMovieDtoMapper.Map<Movie, MovieDto>);
         }
 
         //GET api/movie/1
         public IHttpActionResult GetMovie(int Id)
         {
-            var movie = _context.Movie.SingleOrDefault(m => m.Id == Id);
+            var movie = _context.Movie
+                .Include(m => m.Genre)
+                .SingleOrDefault(m => m.Id == Id);
 
             if (movie == null)
                 return NotFound();
