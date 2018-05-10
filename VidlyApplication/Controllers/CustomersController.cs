@@ -27,9 +27,12 @@ namespace Vidly.Controllers
         {
             //var customers = _context.Customer.Include(c => c.MembershipType);
             //return View(customers);
-            return View();
+            if(User.IsInRole(RoleNames.CanManagerCustomers))
+                return View();
+            return View("ReadOnlyView");
         }
 
+        [Authorize(Roles = RoleNames.CanManagerCustomers)]
         public ActionResult New()
         {
             var membershipTypes = _context.MembershipTypes;
@@ -43,6 +46,7 @@ namespace Vidly.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RoleNames.CanManagerCustomers)]
         public ActionResult Save(Customer customer)
         {
             if (!ModelState.IsValid)
@@ -73,6 +77,7 @@ namespace Vidly.Controllers
             return RedirectToAction("Index", "Customers");
         }
 
+        [Authorize(Roles = RoleNames.CanManagerCustomers)]
         public ActionResult Edit(int id)
         {
             var customer = _context.Customer.SingleOrDefault(c => c.Id == id);
@@ -84,17 +89,6 @@ namespace Vidly.Controllers
             };
 
             return View("CustomerForm", NewCustomerViewModel);
-        }
-
-        [Route("customers/details/{id}")]
-        public ActionResult Details(int id)
-        {
-            var customer = _context.Customer.Include(c => c.MembershipType).SingleOrDefault(x => x.Id == id);
-            if (customer == null)
-                return new HttpNotFoundResult();
-            else
-                return View(customer);
-            
         }
     }
 }

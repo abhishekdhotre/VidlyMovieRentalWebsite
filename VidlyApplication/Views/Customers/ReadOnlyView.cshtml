@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "ReadOnlyView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+<table id="customers" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Membership Type</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var table = $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "membershipTypeDto.membershipName"
+                    }
+                ]
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "ReadOnlyView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+@*@if (Model == null)
+    {
+        <text>Multiple people have rented this movie!!</text>
+    }
+    else
+    {
+        <table class="table">
+            <tr>
+                <th>Movie Name</th>
+                <th>Genre</th>
+            </tr>
+            @foreach (var movie in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(movie.Name, "Edit", "Movies", new { id = movie.Id }, null)</td>
+                    <td>@movie.Genre.GenreName</td>
+                </tr>
+
+            }
+        </table>
+    }*@
+
+<table id="movies" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Movie Name</th>
+            <th>Genre</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var table = $("#movies").DataTable({
+                ajax: {
+                    url: "/api/movies",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "name"
+                    },
+                    {
+                        data: "genre.genreName"
+                    }
+                ]
+            });
+
+        });
+
+    </script>
+}
+
+
+
+
+
+
