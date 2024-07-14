@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using VidlyApplication.Models;
 
+// This is the main account controller
 namespace VidlyApplication.Controllers
 {
     [Authorize]
